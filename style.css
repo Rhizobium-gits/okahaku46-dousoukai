@@ -596,3 +596,18 @@ body {
         gap: 8px;
     }
 }
+/* ニュース画像 */
+.news-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 16px 0;
+    border: 1px solid #171717;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .news-image {
+        margin: 12px 0;
+    }
+}
