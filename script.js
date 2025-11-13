@@ -126,3 +126,12 @@ document.getElementById('participantsNavLink').addEventListener('click', () => {
 
 // 初期表示
 showPage('home');
+// 実行委員カードのリンク機能
+document.querySelectorAll('.committee-card-link').forEach(card => {
+    card.addEventListener('click', () => {
+        const url = card.getAttribute('data-url');
+        if (url) {
+            window.open(url, '_blank');
+        }
+    });
+});
