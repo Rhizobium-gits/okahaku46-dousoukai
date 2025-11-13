@@ -613,3 +613,16 @@ body {
         margin: 12px 0;
     }
 }
+.committee-card-link {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.committee-card-link:hover {
+    background: #171717;
+    border-color: #262626;
+}
+
+.committee-card-link:active {
+    transform: scale(0.98);
+}
