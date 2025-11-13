@@ -38,7 +38,7 @@ body {
 .hero-image {
     position: absolute;
     inset: 0;
-    background-image: url('https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41598-024-75328-x/MediaObjects/41598_2024_75328_Fig1_HTML.png?as=webp');
+    background-image: url('https://raw.githubusercontent.com/Rhizobium-gits/okahaku46-dousoukai/cc8fda827c2fc92070c5aaa325de7b5b4fd97e36/Fig/okahaku_logo');
     background-size: cover;
     background-position: center;
     opacity: 0.2;
