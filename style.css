@@ -599,15 +599,17 @@ body {
 /* ニュース画像 */
 .news-image {
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
     height: auto;
     margin: 16px 0;
     border: 1px solid #171717;
     display: block;
+    object-fit: cover;
 }
 
 @media (max-width: 768px) {
     .news-image {
+        max-width: 100%;
         margin: 12px 0;
     }
 }
