@@ -1,402 +1,438 @@
-import React, { useState, useEffect } from 'react';
-
-export default function ReunionWebsite() {
-  const [participantsAuthenticated, setParticipantsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentPage, setCurrentPage] = useState('home');
-
-  const images = [
-    'https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41598-024-75328-x/MediaObjects/41598_2024_75328_Fig1_HTML.png?as=webp'
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (password === 'okahaku.asanogakunenn.4346') {
-      setParticipantsAuthenticated(true);
-      setShowPasswordModal(false);
-      setError(false);
-      setPassword('');
-      setTimeout(() => {
-        document.getElementById('participants')?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else {
-      setError(true);
-    }
-  };
-
-  const handleParticipantsClick = () => {
-    if (currentPage !== 'home') {
-      setCurrentPage('home');
-      setTimeout(() => {
-        if (!participantsAuthenticated) {
-          setShowPasswordModal(true);
-        } else {
-          document.getElementById('participants')?.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      if (!participantsAuthenticated) {
-        setShowPasswordModal(true);
-      } else {
-        document.getElementById('participants')?.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  const scrollToSection = (section) => {
-    if (currentPage !== 'home') {
-      setCurrentPage('home');
-      setTimeout(() => {
-        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else {
-      document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <div className="bg-black text-white font-light">
-      {/* Google Fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1&display=swap" rel="stylesheet" />
-      
-      {/* ヒーロー */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {images.map((img, i) => (
-          <div
-            key={i}
-            className={`absolute inset-0 transition-opacity duration-2000 ${
-              i === currentImageIndex ? 'opacity-20' : 'opacity-0'
-            }`}
-          >
-            <img src={img} alt="" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-black"></div>
-          </div>
-        ))}
-
-        <div className="relative z-10 text-center px-6">
-          <p className="text-xs tracking-widest text-neutral-500 mb-12">2026.01.10</p>
-          <h1 className="space-y-4" style={{ fontFamily: '"Shippori Mincho B1", serif' }}>
-            <span className="block text-3xl md:text-5xl font-light tracking-tight">岡山白陵中学・高等学校</span>
-            <span className="block text-6xl md:text-8xl font-extralight my-6">43 · 46</span>
-            <span className="block text-2xl md:text-4xl font-light tracking-wide">同窓会</span>
-          </h1>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岡山白陵中学・高等学校43期・46期 同窓会</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ヒーロー -->
+    <section id="hero" class="hero">
+        <div class="hero-image" id="heroImage"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-date">2026.01.10</p>
+            <h1 class="hero-title">
+                <span class="title-line">岡山白陵中学・高等学校</span>
+                <span class="title-number">43 · 46</span>
+                <span class="title-line">同窓会</span>
+            </h1>
         </div>
-      </section>
+    </section>
 
-      {/* ナビゲーション */}
-      <nav className="sticky top-0 bg-black/90 backdrop-blur border-b border-neutral-900 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <ul className="flex justify-center gap-8 text-sm flex-wrap">
-            <li>
-              <button onClick={() => scrollToSection('overview')} className="hover:text-neutral-400 transition-colors">
-                概要
-              </button>
-            </li>
-            <li>
-              <button onClick={() => scrollToSection('news')} className="hover:text-neutral-400 transition-colors">
-                ニュース
-              </button>
-            </li>
-            <li>
-              <button onClick={handleParticipantsClick} className="hover:text-neutral-400 transition-colors">
-                参加者
-              </button>
-            </li>
-            <li>
-              <button onClick={() => scrollToSection('timeline')} className="hover:text-neutral-400 transition-colors">
-                タイムライン
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setCurrentPage('committee')} className="hover:text-neutral-400 transition-colors">
-                役員紹介
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setCurrentPage('about')} className="hover:text-neutral-400 transition-colors">
-                開催にあたって
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <!-- ナビゲーション -->
+    <nav id="nav" class="nav">
+        <ul class="nav-list">
+            <li><a href="javascript:void(0);" class="nav-link" data-section="overview">概要</a></li>
+            <li><a href="javascript:void(0);" class="nav-link" data-section="news">ニュース</a></li>
+            <li><a href="javascript:void(0);" class="nav-link" id="participantsNavLink">参加者</a></li>
+            <li><a href="javascript:void(0);" class="nav-link" data-section="timeline">タイムライン</a></li>
+            <li><a href="javascript:void(0);" class="nav-link" data-page="committee">役員紹介</a></li>
+            <li><a href="javascript:void(0);" class="nav-link" data-page="about">開催にあたって</a></li>
+        </ul>
+    </nav>
 
-      {/* パスワードモーダル */}
-      {showPasswordModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-6">
-          <div className="bg-neutral-900 border border-neutral-800 p-8 w-full max-w-md">
-            <h2 className="text-xl font-light mb-6">参加者名簿</h2>
-            <p className="text-sm text-neutral-400 mb-6">参加者のみ閲覧可能です。</p>
-            <form onSubmit={handleLogin} className="space-y-6">
-              <div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setError(false);
-                  }}
-                  className="w-full bg-black border border-neutral-800 px-4 py-3 text-white font-light focus:outline-none focus:border-neutral-600"
-                  placeholder="パスワードを入力"
-                  autoFocus
-                />
-                {error && <p className="text-red-500 text-sm mt-2 font-light">パスワードが正しくありません</p>}
-              </div>
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowPasswordModal(false);
-                    setPassword('');
-                    setError(false);
-                  }}
-                  className="flex-1 border border-neutral-800 py-3 font-light hover:bg-neutral-800 transition-colors"
-                >
-                  キャンセル
-                </button>
-                <button type="submit" className="flex-1 bg-white text-black py-3 font-light hover:bg-neutral-200 transition-colors">
-                  確認
-                </button>
-              </div>
+    <!-- パスワードモーダル -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2>参加者名簿</h2>
+            <p class="modal-desc">参加者のみ閲覧可能です。</p>
+            <form id="passwordForm">
+                <input type="password" id="passwordInput" placeholder="パスワードを入力" autocomplete="off" />
+                <p id="errorMessage" class="error-message"></p>
+                <div class="modal-buttons">
+                    <button type="button" id="cancelBtn" class="btn-secondary">キャンセル</button>
+                    <button type="submit" class="btn-primary">確認</button>
+                </div>
             </form>
-          </div>
         </div>
-      )}
-
-      {/* ホームページ */}
-      {currentPage === 'home' && (
-        <>
-          <section id="overview" className="py-24 border-b border-neutral-900">
-            <div className="max-w-4xl mx-auto px-6">
-              <h2 className="text-3xl font-light mb-16">Event Overview</h2>
-              <div className="space-y-12">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <p className="text-xs text-neutral-500 mb-2">日時</p>
-                    <p className="text-lg">2026年1月10日(土)</p>
-                    <p className="text-sm text-neutral-400 mt-1">18:00 - 20:30 (17:30開場)</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500 mb-2">会場</p>
-                    <a href="https://picnic-terrace.jp" target="_blank" rel="noopener noreferrer"
-                       className="text-lg hover:text-neutral-400 transition-colors underline decoration-neutral-800 hover:decoration-neutral-400">
-                      PICNIC TERRACE
-                    </a>
-                    <p className="text-sm text-neutral-400 mt-1">岡山 杜の街グレース3F</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500 mb-2">参加費</p>
-                    <p className="text-lg">¥10,000</p>
-                    <p className="text-sm text-neutral-400 mt-1">食事・ドリンク飲み放題込み</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500 mb-2">服装</p>
-                    <p className="text-lg">Smart Casual</p>
-                    <p className="text-sm text-neutral-400 mt-1">男女ともスマートカジュアル以上</p>
-                  </div>
-                </div>
-                <div className="border-t border-neutral-900 pt-12">
-                  <h3 className="text-xl font-light mb-8">参加までの流れ</h3>
-                  <div className="space-y-6">
-                    <div>
-                      <p className="text-sm text-neutral-500 mb-1">STEP 1</p>
-                      <p className="mb-1">参加申込</p>
-                      <p className="text-sm text-neutral-400">11/13 - 11/20（締切厳守）</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-neutral-500 mb-1">STEP 2</p>
-                      <p className="mb-1">銀行振込</p>
-                      <p className="text-sm text-neutral-400">11/19頃～（本人名義必須）</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-neutral-500 mb-1">STEP 3</p>
-                      <p className="mb-1">当日参加</p>
-                      <p className="text-sm text-neutral-400">2026/1/10（17:30受付開始）</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section id="news" className="py-24 border-b border-neutral-900">
-            <div className="max-w-4xl mx-auto px-6">
-              <h2 className="text-3xl font-light mb-16">News</h2>
-              <div className="space-y-8">
-                <article className="border-b border-neutral-900 pb-8">
-                  <time className="text-xs text-neutral-500">2025.11.13</time>
-                  <h3 className="text-xl mt-2 mb-3">参加申込受付開始</h3>
-                  <p className="text-sm text-neutral-400">43期・46期同窓会の参加申込を開始しました。</p>
-                </article>
-                <article className="border-b border-neutral-900 pb-8">
-                  <time className="text-xs text-neutral-500">2025.11.XX</time>
-                  <h3 className="text-xl mt-2 mb-3">○○先生の参加が決定</h3>
-                  <p className="text-sm text-neutral-400">○○先生が当日ご参加いただけることになりました。</p>
-                </article>
-              </div>
-            </div>
-          </section>
-
-          <section id="participants" className="py-24 border-b border-neutral-900">
-            <div className="max-w-5xl mx-auto px-6">
-              <h2 className="text-3xl font-light mb-16">Participants</h2>
-              {!participantsAuthenticated ? (
-                <div className="text-center py-24">
-                  <p className="text-neutral-400 mb-8">参加者名簿は参加者のみ閲覧可能です。</p>
-                  <button onClick={() => setShowPasswordModal(true)}
-                          className="border border-neutral-800 px-8 py-3 font-light hover:bg-neutral-900 transition-colors">
-                    パスワードを入力
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <div className="mb-16">
-                    <h3 className="text-2xl font-light mb-8 pb-4 border-b border-neutral-900">43期</h3>
-                    <div className="grid md:grid-cols-3 gap-8">
-                      {['1組', '2組', '3組', '4組', '5組', '途中退学'].map((c, i) => (
-                        <div key={i} className="border border-neutral-900 p-6">
-                          <div className="flex justify-between mb-4 pb-4 border-b border-neutral-900">
-                            <h4 className="text-sm">{c}</h4>
-                            <span className="text-xs text-neutral-500">3名</span>
-                          </div>
-                          <ul className="space-y-2 text-sm text-neutral-400">
-                            <li>山田 太郎</li>
-                            <li>佐藤 花子</li>
-                            <li>鈴木 一郎</li>
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-8 flex justify-between px-6 py-4 border border-neutral-900">
-                      <span className="text-sm text-neutral-500">43期 合計</span>
-                      <span className="text-2xl font-light">18名</span>
-                    </div>
-                  </div>
-                  <div className="mb-16">
-                    <h3 className="text-2xl font-light mb-8 pb-4 border-b border-neutral-900">46期</h3>
-                    <div className="grid md:grid-cols-3 gap-8">
-                      {['1組', '2組', '3組', '4組', '5組', '途中退学'].map((c, i) => (
-                        <div key={i} className="border border-neutral-900 p-6">
-                          <div className="flex justify-between mb-4 pb-4 border-b border-neutral-900">
-                            <h4 className="text-sm">{c}</h4>
-                            <span className="text-xs text-neutral-500">3名</span>
-                          </div>
-                          <ul className="space-y-2 text-sm text-neutral-400">
-                            <li>加藤 真司</li>
-                            <li>吉田 愛</li>
-                            <li>山本 拓也</li>
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-8 flex justify-between px-6 py-4 border border-neutral-900">
-                      <span className="text-sm text-neutral-500">46期 合計</span>
-                      <span className="text-2xl font-light">18名</span>
-                    </div>
-                  </div>
-                  <div className="text-center py-12 border border-neutral-900">
-                    <p className="text-sm text-neutral-500 mb-4">全体参加者数</p>
-                    <p className="text-6xl font-extralight">36<span className="text-2xl ml-2">名</span></p>
-                  </div>
-                </>
-              )}
-            </div>
-          </section>
-
-          <section id="timeline" className="py-24 border-b border-neutral-900">
-            <div className="max-w-4xl mx-auto px-6">
-              <h2 className="text-3xl font-light mb-16">Timeline</h2>
-              <div className="space-y-6">
-                {[
-                  { time: '17:30', title: '開場・受付開始', desc: '受付にて記念品をお渡しします。' },
-                  { time: '18:00', title: '開会・挨拶', desc: '実行委員長より開会の挨拶。' },
-                  { time: '18:10', title: '先生方のご挨拶', desc: 'ご参加いただいた先生方から。' },
-                  { time: '18:20', title: '乾杯・歓談タイム', desc: 'お食事とドリンクを。' },
-                  { time: '19:00', title: 'スライドショー', desc: '在学中の写真を。' },
-                  { time: '19:20', title: 'フォトタイム', desc: '引き続き歓談を。' },
-                  { time: '20:10', title: '閉会の挨拶', desc: '副実行委員長より。' },
-                  { time: '20:30', title: '閉会', desc: 'お気をつけて。' }
-                ].map((t, i) => (
-                  <div key={i} className="flex gap-8 border-b border-neutral-900 pb-6">
-                    <time className="flex-shrink-0 w-16 text-xl font-light">{t.time}</time>
-                    <div>
-                      <h3 className="text-lg mb-1">{t.title}</h3>
-                      <p className="text-sm text-neutral-400">{t.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        </>
-      )}
-
-      {/* 役員紹介ページ */}
-      {currentPage === 'committee' && (
-        <section className="py-24">
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-3xl font-light mb-16">Committee Members</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { role: '実行委員長', name: '氏名', period: '43期', msg: '皆さまとの再会を楽しみにしております。' },
-                { role: '副実行委員長', name: '氏名', period: '46期', msg: '準備を進めております。' },
-                { role: '会計担当', name: '氏名', period: '43期', msg: 'ご質問はお気軽に。' },
-                { role: '広報担当', name: '氏名', period: '46期', msg: '情報発信を担当。' },
-                { role: '総務担当', name: '氏名', period: '43期', msg: '当日の運営を担当。' },
-                { role: '企画担当', name: '氏名', period: '46期', msg: 'プログラムを企画中。' }
-              ].map((m, i) => (
-                <div key={i} className="border border-neutral-900 p-8 text-center">
-                  <p className="text-xs text-neutral-500 mb-4">{m.role}</p>
-                  <h3 className="text-xl mb-2">{m.name}</h3>
-                  <p className="text-xs text-neutral-500 mb-4">{m.period}</p>
-                  <p className="text-sm text-neutral-400">{m.msg}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 開催にあたってページ */}
-      {currentPage === 'about' && (
-        <section className="py-24">
-          <div className="max-w-3xl mx-auto px-6">
-            <h2 className="text-3xl font-light mb-16">開催にあたって</h2>
-            <div className="space-y-8 text-neutral-300 leading-relaxed">
-              <p>岡山白陵中学・高等学校43期・46期の皆さまへ</p>
-              <p>卒業以来、それぞれの道を歩んでこられた皆さまと再び集い、懐かしい思い出を語り合う機会を設けることができ、実行委員一同大変嬉しく思っております。</p>
-              <p>在学中に共に過ごした日々、様々な経験を通じて築いた絆は、時を経ても色褪せることはありません。この同窓会が、旧交を温め、新たな交流の場となることを願っております。</p>
-              <p>また、お忙しい中ご参加いただける先生方にも、この場をお借りして御礼申し上げます。</p>
-              <p>皆さまのご参加を心よりお待ちしております。</p>
-              <div className="pt-12 border-t border-neutral-900 text-right">
-                <p className="text-sm">岡山白陵中学・高等学校</p>
-                <p className="text-sm">43期・46期 同窓会実行委員会</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* フッター */}
-      <footer className="py-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-sm text-neutral-500 mb-2">岡山白陵中学・高等学校 43期・46期 同窓会</p>
-          <p className="text-xs text-neutral-600">contact@example.com</p>
-          <p className="text-xs text-neutral-700 mt-8">&copy; 2025 同窓会実行委員会</p>
-        </div>
-      </footer>
     </div>
-  );
-}
+
+    <!-- ホームページ -->
+    <div id="homePage">
+        <!-- 概要 -->
+        <section id="overview" class="section">
+            <div class="container">
+                <h2 class="section-title">Event Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <p class="item-label">日時</p>
+                        <p class="item-value">2026年1月10日(土)</p>
+                        <p class="item-desc">18:00 - 20:30 (17:30開場)</p>
+                    </div>
+                    <div class="overview-item">
+                        <p class="item-label">会場</p>
+                        <a href="https://picnic-terrace.jp" target="_blank" class="item-link">PICNIC TERRACE</a>
+                        <p class="item-desc">岡山 杜の街グレース3F</p>
+                    </div>
+                    <div class="overview-item">
+                        <p class="item-label">参加費</p>
+                        <p class="item-value">¥10,000</p>
+                        <p class="item-desc">食事・ドリンク飲み放題込み</p>
+                    </div>
+                    <div class="overview-item">
+                        <p class="item-label">服装</p>
+                        <p class="item-value">Smart Casual</p>
+                        <p class="item-desc">男女ともスマートカジュアル以上</p>
+                    </div>
+                </div>
+                <div class="steps">
+                    <h3 class="steps-title">参加までの流れ</h3>
+                    <div class="steps-list">
+                        <div class="step">
+                            <p class="step-label">STEP 1</p>
+                            <p class="step-title">参加申込</p>
+                            <p class="step-desc">11/13 - 11/20（締切厳守）</p>
+                        </div>
+                        <div class="step">
+                            <p class="step-label">STEP 2</p>
+                            <p class="step-title">銀行振込</p>
+                            <p class="step-desc">11/19頃～（本人名義必須）</p>
+                        </div>
+                        <div class="step">
+                            <p class="step-label">STEP 3</p>
+                            <p class="step-title">当日参加</p>
+                            <p class="step-desc">2026/1/10（17:30受付開始）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ニュース -->
+        <section id="news" class="section">
+            <div class="container">
+                <h2 class="section-title">News</h2>
+                <div class="news-list">
+                    <article class="news-item">
+                        <time class="news-date">2025.11.13</time>
+                        <h3 class="news-title">参加申込受付開始</h3>
+                        <p class="news-desc">43期・46期同窓会の参加申込を開始しました。</p>
+                    </article>
+                    <article class="news-item">
+                        <time class="news-date">2025.11.XX</time>
+                        <h3 class="news-title">○○先生の参加が決定</h3>
+                        <p class="news-desc">○○先生が当日ご参加いただけることになりました。</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 参加者名簿 -->
+        <section id="participants" class="section">
+            <div class="container">
+                <h2 class="section-title">Participants</h2>
+                <div id="participantsLocked" class="participants-locked">
+                    <p class="locked-message">参加者名簿は参加者のみ閲覧可能です。</p>
+                    <button id="unlockBtn" class="btn-unlock">パスワードを入力</button>
+                </div>
+                <div id="participantsContent" class="participants-content" style="display: none;">
+                    <div class="grade-section">
+                        <h3 class="grade-title">43期</h3>
+                        <div class="class-grid">
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>1組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>山田 太郎</li>
+                                    <li>佐藤 花子</li>
+                                    <li>鈴木 一郎</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>2組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>田中 次郎</li>
+                                    <li>高橋 美咲</li>
+                                    <li>伊藤 健太</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>3組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>渡辺 直樹</li>
+                                    <li>小林 優子</li>
+                                    <li>中村 大輔</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>4組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>加藤 真司</li>
+                                    <li>吉田 愛</li>
+                                    <li>山本 拓也</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>5組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>松本 麗奈</li>
+                                    <li>井上 雄太</li>
+                                    <li>木村 翔太</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>途中退学</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>林 美穂</li>
+                                    <li>清水 健一</li>
+                                    <li>佐々木 隆</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="grade-total">
+                            <span>43期 合計</span>
+                            <span class="total-number">18名</span>
+                        </div>
+                    </div>
+
+                    <div class="grade-section">
+                        <h3 class="grade-title">46期</h3>
+                        <div class="class-grid">
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>1組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>山田 太郎</li>
+                                    <li>佐藤 花子</li>
+                                    <li>鈴木 一郎</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>2組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>田中 次郎</li>
+                                    <li>高橋 美咲</li>
+                                    <li>伊藤 健太</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>3組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>渡辺 直樹</li>
+                                    <li>小林 優子</li>
+                                    <li>中村 大輔</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>4組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>加藤 真司</li>
+                                    <li>吉田 愛</li>
+                                    <li>山本 拓也</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>5組</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>松本 麗奈</li>
+                                    <li>井上 雄太</li>
+                                    <li>木村 翔太</li>
+                                </ul>
+                            </div>
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <h4>途中退学</h4>
+                                    <span class="class-count">3名</span>
+                                </div>
+                                <ul class="participant-list">
+                                    <li>林 美穂</li>
+                                    <li>清水 健一</li>
+                                    <li>佐々木 隆</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="grade-total">
+                            <span>46期 合計</span>
+                            <span class="total-number">18名</span>
+                        </div>
+                    </div>
+
+                    <div class="overall-total">
+                        <p class="overall-label">全体参加者数</p>
+                        <p class="overall-number">36<span class="overall-unit">名</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- タイムライン -->
+        <section id="timeline" class="section">
+            <div class="container">
+                <h2 class="section-title">Timeline</h2>
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <time class="timeline-time">17:30</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">開場・受付開始</h3>
+                            <p class="timeline-desc">受付にて記念品をお渡しします。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">18:00</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">開会・挨拶</h3>
+                            <p class="timeline-desc">実行委員長より開会の挨拶。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">18:10</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">先生方のご挨拶</h3>
+                            <p class="timeline-desc">ご参加いただいた先生方から。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">18:20</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">乾杯・歓談タイム</h3>
+                            <p class="timeline-desc">お食事とドリンクを。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">19:00</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">スライドショー</h3>
+                            <p class="timeline-desc">在学中の写真を。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">19:20</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">フォトタイム</h3>
+                            <p class="timeline-desc">引き続き歓談を。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">20:10</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">閉会の挨拶</h3>
+                            <p class="timeline-desc">副実行委員長より。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <time class="timeline-time">20:30</time>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">閉会</h3>
+                            <p class="timeline-desc">お気をつけて。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 役員紹介ページ -->
+    <div id="committeePage" style="display: none;">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Committee Members</h2>
+                <div class="committee-grid">
+                    <div class="committee-card">
+                        <p class="committee-role">実行委員長</p>
+                        <h3 class="committee-name">氏名</h3>
+                        <p class="committee-period">43期</p>
+                        <p class="committee-message">皆さまとの再会を楽しみにしております。</p>
+                    </div>
+                    <div class="committee-card">
+                        <p class="committee-role">副実行委員長</p>
+                        <h3 class="committee-name">氏名</h3>
+                        <p class="committee-period">46期</p>
+                        <p class="committee-message">準備を進めております。</p>
+                    </div>
+                    <div class="committee-card">
+                        <p class="committee-role">会計担当</p>
+                        <h3 class="committee-name">氏名</h3>
+                        <p class="committee-period">43期</p>
+                        <p class="committee-message">ご質問はお気軽に。</p>
+                    </div>
+                    <div class="committee-card">
+                        <p class="committee-role">広報担当</p>
+                        <h3 class="committee-name">氏名</h3>
+                        <p class="committee-period">46期</p>
+                        <p class="committee-message">情報発信を担当。</p>
+                    </div>
+                    <div class="committee-card">
+                        <p class="committee-role">総務担当</p>
+                        <h3 class="committee-name">氏名</h3>
+                        <p class="committee-period">43期</p>
+                        <p class="committee-message">当日の運営を担当。</p>
+                    </div>
+                    <div class="committee-card">
+                        <p class="committee-role">企画担当</p>
+                        <h3 class="committee-name">氏名</h3>
+                        <p class="committee-period">46期</p>
+                        <p class="committee-message">プログラムを企画中。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 開催にあたってページ -->
+    <div id="aboutPage" style="display: none;">
+        <section class="section">
+            <div class="container-narrow">
+                <h2 class="section-title">開催にあたって</h2>
+                <div class="about-content">
+                    <p>岡山白陵中学・高等学校43期・46期の皆さまへ</p>
+                    <p>卒業以来、それぞれの道を歩んでこられた皆さまと再び集い、懐かしい思い出を語り合う機会を設けることができ、実行委員一同大変嬉しく思っております。</p>
+                    <p>在学中に共に過ごした日々、様々な経験を通じて築いた絆は、時を経ても色褪せることはありません。この同窓会が、旧交を温め、新たな交流の場となることを願っております。</p>
+                    <p>また、お忙しい中ご参加いただける先生方にも、この場をお借りして御礼申し上げます。</p>
+                    <p>皆さまのご参加を心よりお待ちしております。</p>
+                    <div class="about-signature">
+                        <p>岡山白陵中学・高等学校</p>
+                        <p>43期・46期 同窓会実行委員会</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-title">岡山白陵中学・高等学校 43期・46期 同窓会</p>
+            <p class="footer-email">contact@example.com</p>
+            <p class="footer-copyright">&copy; 2025 同窓会実行委員会</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
