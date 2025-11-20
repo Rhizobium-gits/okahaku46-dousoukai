@@ -1,5 +1,5 @@
 // パスワード
-const CORRECT_PASSWORD = 'okahaku.asanogakunenn.4346';
+const CORRECT_PASSWORD = 'umashioka.4346';
 let isAuthenticated = false;
 
 // 画像フェードエフェクト
