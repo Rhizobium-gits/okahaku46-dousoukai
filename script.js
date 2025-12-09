@@ -135,3 +135,50 @@ document.querySelectorAll('.committee-card-link').forEach(card => {
         }
     });
 });
+
+// スライドショー
+function initSlideshow() {
+    const container = document.querySelector('.slideshow-container');
+    if (!container) return;
+
+    const slides = container.querySelectorAll('.slide');
+    const dotsContainer = container.querySelector('.slide-dots');
+    let currentSlide = 0;
+
+    // ドットを生成
+    slides.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll('.dot');
+
+    function showSlide(n) {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        slides[n].classList.add('active');
+        dots[n].classList.add('active');
+    }
+
+    function goToSlide(n) {
+        currentSlide = n;
+        showSlide(currentSlide);
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    // 初期表示
+    showSlide(0);
+
+    // 自動スライド（4秒間隔）
+    setInterval(nextSlide, 4000);
+}
+
+// DOMContentLoadedで初期化
+document.addEventListener('DOMContentLoaded', initSlideshow);
