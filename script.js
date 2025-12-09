@@ -143,14 +143,20 @@ function initSlideshow() {
 
     const slides = container.querySelectorAll('.slide');
     const dotsContainer = container.querySelector('.slide-dots');
+    const prevBtn = container.querySelector('.slide-arrow.prev');
+    const nextBtn = container.querySelector('.slide-arrow.next');
     let currentSlide = 0;
+    let autoSlideInterval;
 
     // ドットを生成
     slides.forEach((_, i) => {
         const dot = document.createElement('span');
         dot.classList.add('dot');
         if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(i));
+        dot.addEventListener('click', () => {
+            goToSlide(i);
+            resetAutoSlide();
+        });
         dotsContainer.appendChild(dot);
     });
 
@@ -165,19 +171,40 @@ function initSlideshow() {
 
     function goToSlide(n) {
         currentSlide = n;
+        if (currentSlide >= slides.length) currentSlide = 0;
+        if (currentSlide < 0) currentSlide = slides.length - 1;
         showSlide(currentSlide);
     }
 
     function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
+        goToSlide(currentSlide + 1);
     }
+
+    function prevSlide() {
+        goToSlide(currentSlide - 1);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(nextSlide, 5000);
+    }
+
+    // ボタンイベント
+    prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoSlide();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoSlide();
+    });
 
     // 初期表示
     showSlide(0);
 
-    // 自動スライド（4秒間隔）
-    setInterval(nextSlide, 4000);
+    // 自動スライド（5秒間隔）
+    autoSlideInterval = setInterval(nextSlide, 5000);
 }
 
 // DOMContentLoadedで初期化
